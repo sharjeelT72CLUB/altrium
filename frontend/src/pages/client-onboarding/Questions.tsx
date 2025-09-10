@@ -1,0 +1,156 @@
+import { useState } from 'react'
+import ChatBot from '../../components/chat/ChatBot'
+import Button from '../../components/common/Button'
+
+interface QuestionsProps {
+  navigate: (path: string) => void
+}
+
+interface InvestmentGoal {
+  id: string;
+  label: string;
+  selected: boolean;
+}
+
+export default function Questions({ navigate: _navigate }: QuestionsProps) {
+  const [isChatOpen, setIsChatOpen] = useState(false)
+  const [investmentGoals, setInvestmentGoals] = useState<InvestmentGoal[]>([
+    { id: 'growth', label: 'Growth', selected: true },
+    { id: 'tax-efficiency', label: 'Tax efficiency', selected: true },
+    { id: 'protection', label: 'Protection', selected: false },
+    { id: 'income', label: 'Income', selected: false },
+    { id: 'financial-independence', label: 'Financial Independence', selected: true }
+  ])
+
+  const toggleChat = () => {
+    setIsChatOpen(!isChatOpen)
+  }
+
+  const toggleGoal = (goalId: string) => {
+    setInvestmentGoals(prev => 
+      prev.map(goal => 
+        goal.id === goalId 
+          ? { ...goal, selected: !goal.selected }
+          : goal
+      )
+    )
+  }
+
+  const handleContinue = () => {
+    const selectedGoals = investmentGoals.filter(goal => goal.selected)
+    console.log('Selected investment goals:', selectedGoals)
+    // TODO: Navigate to next step with selected goals
+    // navigate('/next-step')
+  }
+
+  const handleSkip = () => {
+    // TODO: Navigate to next step without goals
+    // navigate('/next-step')
+  }
+
+  return (
+    <div className='h-screen p-[2%] hero-pattern flex'>
+      {/* Left Section - Questions Form */}
+      <section className={`flex flex-col justify-center items-center transition-all duration-300 ${
+        isChatOpen ? 'flex-1' : 'w-full'
+      }`}>
+        <div className='w-full max-w-2xl text-center'>
+          <h1 className="text-2xl font-bold text-text-primary mb-8 text-left">
+            What type of investor is your client?
+          </h1>
+
+          {/* Investment Goals Checkboxes */}
+          <div className='mb-8'>
+            <div className='grid grid-cols-2 gap-4'>
+              {investmentGoals.map((goal) => (
+                <button
+                  key={goal.id}
+                  onClick={() => toggleGoal(goal.id)}
+                  className={`flex items-center gap-3 p-6 rounded-xl border transition-all duration-200 ${
+                    goal.selected
+                      ? 'border-white bg-bg-input'
+                      : 'border-border bg-bg-input hover:border-white/50'
+                  }`}
+                >
+                  {/* Checkbox */}
+                  <div className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center transition-all duration-200 ${
+                    goal.selected
+                      ? 'border-white bg-white'
+                      : 'border-text-muted bg-transparent'
+                  }`}>
+                    {goal.selected && (
+                      <svg className='w-3 h-3 text-bg-input' fill='currentColor' viewBox='0 0 20 20'>
+                        <path fillRule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' clipRule='evenodd' />
+                      </svg>
+                    )}
+                  </div>
+                  
+                  {/* Label */}
+                  <span className='text-text-primary font-medium text-left'>
+                    {goal.label}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+
+          {/* selectors */}
+          <div className='mb-8'>
+            <div className='grid grid-cols-2 gap-4'>
+              {investmentGoals.map((goal) => (
+                <button
+                  key={goal.id}
+                  onClick={() => toggleGoal(goal.id)}
+                  className={`flex items-center gap-3 p-10 rounded-xl border transition-all duration-200 ${
+                    goal.selected
+                      ? 'border-white bg-bg-input'
+                      : 'border-border bg-bg-input hover:border-white/50'
+                  }`}
+                >
+                  {/* Checkbox */}
+
+                  
+                  {/* Label */}
+                  <span className='text-text-primary font-medium text-left'>
+                    {goal.label}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+          
+
+          {/* Action Buttons */}
+          <div className='flex justify-between gap-4'>
+            <Button 
+              onClick={handleSkip}
+              variant='secondary'
+              className='flex-1'
+            >
+              Skip
+            </Button>
+            <Button 
+              onClick={handleContinue}
+              variant='primary'
+              className='flex-1'
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Right Section - ChatBot */}
+      <section className={`flex justify-end items-center transition-all duration-300 ${
+        isChatOpen ? 'w-96' : 'w-16'
+      }`}>
+        <ChatBot 
+          isOpen={isChatOpen} 
+          onToggle={toggleChat}
+          className="h-full"
+        />
+      </section>
+    </div>
+  )
+}

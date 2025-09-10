@@ -4,7 +4,7 @@ interface ButtonProps {
   children: React.ReactNode;
   onClick: () => void;
   className?: string;
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary' | 'tertiary';
   disabled?: boolean;
 }
 
@@ -19,7 +19,8 @@ export default function Button({
   
   const variantClasses = {
     primary: 'bg-primary text-white hover:bg-primary-hover focus:ring-primary',
-    secondary: 'bg-white text-black hover:bg-gray-100 focus:ring-gray-300'
+    secondary: 'bg-white text-black hover:bg-gray-100 focus:ring-gray-300',
+    tertiary: 'bg-transparent text-text-primary focus:ring-gray-300'
   };
   
   const disabledClasses = disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer';

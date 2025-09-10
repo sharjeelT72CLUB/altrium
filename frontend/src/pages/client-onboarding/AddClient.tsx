@@ -7,7 +7,7 @@ interface AddClientProps {
   navigate: (path: string) => void
 }
 
-export default function AddClient({ navigate: _navigate }: AddClientProps) {
+export default function AddClient({ navigate }: AddClientProps) {
   const [clientName, setClientName] = useState('')
   const [isChatOpen, setIsChatOpen] = useState(false)
 
@@ -19,6 +19,7 @@ export default function AddClient({ navigate: _navigate }: AddClientProps) {
     if (clientName.trim()) {
       // TODO: Save client name and proceed to next step
       console.log('Client name:', clientName)
+      navigate('/client-onboarding/questions')
       // navigate('/next-step')
     }
   }
