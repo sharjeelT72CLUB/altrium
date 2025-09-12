@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import ChatBot from '../../components/chat/ChatBot'
 import Button from '../../components/common/Button'
+import LargeCheckbox from '../../components/form/LargeCheckbox'
 
 interface QuestionsProps {
   navigate: (path: string) => void
 }
 
-interface InvestmentGoal {
+export interface InvestmentGoal {
   id: string;
   label: string;
   selected: boolean;
@@ -21,6 +22,7 @@ export default function Questions({ navigate: _navigate }: QuestionsProps) {
     { id: 'income', label: 'Income', selected: false },
     { id: 'financial-independence', label: 'Financial Independence', selected: true }
   ])
+
 
   const toggleChat = () => {
     setIsChatOpen(!isChatOpen)
@@ -61,35 +63,13 @@ export default function Questions({ navigate: _navigate }: QuestionsProps) {
 
           {/* Investment Goals Checkboxes */}
           <div className='mb-8'>
-            <div className='grid grid-cols-2 gap-4'>
+            <div className='flex flex-wrap gap-4'>
               {investmentGoals.map((goal) => (
-                <button
+                <LargeCheckbox 
                   key={goal.id}
-                  onClick={() => toggleGoal(goal.id)}
-                  className={`flex items-center gap-3 p-6 rounded-xl border transition-all duration-200 ${
-                    goal.selected
-                      ? 'border-white bg-bg-input'
-                      : 'border-border bg-bg-input hover:border-white/50'
-                  }`}
-                >
-                  {/* Checkbox */}
-                  <div className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center transition-all duration-200 ${
-                    goal.selected
-                      ? 'border-white bg-white'
-                      : 'border-text-muted bg-transparent'
-                  }`}>
-                    {goal.selected && (
-                      <svg className='w-3 h-3 text-bg-input' fill='currentColor' viewBox='0 0 20 20'>
-                        <path fillRule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' clipRule='evenodd' />
-                      </svg>
-                    )}
-                  </div>
-                  
-                  {/* Label */}
-                  <span className='text-text-primary font-medium text-left'>
-                    {goal.label}
-                  </span>
-                </button>
+                  goal={goal}
+                  toggleGoal={toggleGoal}
+                />
               ))}
             </div>
           </div>
@@ -97,12 +77,12 @@ export default function Questions({ navigate: _navigate }: QuestionsProps) {
 
           {/* selectors */}
           <div className='mb-8'>
-            <div className='grid grid-cols-2 gap-4'>
+            <div className='flex flex-wrap gap-4'>
               {investmentGoals.map((goal) => (
                 <button
                   key={goal.id}
                   onClick={() => toggleGoal(goal.id)}
-                  className={`flex items-center gap-3 p-10 rounded-xl border transition-all duration-200 ${
+                  className={`flex items-center gap-3 py-8 px-16 rounded-xl border transition-all duration-200 ${
                     goal.selected
                       ? 'border-white bg-bg-input'
                       : 'border-border bg-bg-input hover:border-white/50'

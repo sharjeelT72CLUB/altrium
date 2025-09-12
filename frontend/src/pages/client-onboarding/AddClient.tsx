@@ -86,6 +86,7 @@ export default function AddClient({ navigate }: AddClientProps) {
           isOpen={isChatOpen} 
           onToggle={toggleChat}
           className="h-full"
+          userId={'68c2b95e5aa532dc31badd30'}
         />
       </section>
     </div>
